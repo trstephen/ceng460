@@ -1,0 +1,76 @@
+\section{Discussion}\label{sec:discussion}
+\subsection{Running WireShark}\label{sec:wireshark}
+\textit{List at least three different protocols that appear in an unfiltered capture.}
+
+After invoking \verb|wget http://www.google.ca| at the command line, WireShark fills with traffic.
+The following protocols were observed:
+\begin{itemize}
+	\item DNS
+	\item HTTP
+	\item TCP
+	\item TLSv1.2
+\end{itemize}
+
+\textit{How long did it take from the HTTP GET message being sent to the HTTP OK reply being received?}
+
+This is determined by comparing the values of the Time field in the Captured Packets window of WireShark.
+The value of Time corresponds to the elapsed time the packet was recorded since WireShark began its capture.
+For this capture, GET was sent at +7.271199 ms and OK was received at +56.242508 ms.
+Thus, the elapsed time is 48.971318 ms.
+
+\subsection{Network tools}\label{sec:tools}
+\textit{How many Ethernet interfaces are in your computer, how to determine it?}
+
+The output of the \texttt{ifconfig} command indicates that this computer has 1 network interface, \texttt{eth0}.
+The loopback interface \texttt{lo} is a virtual network interface and is only used for self traffic.
+\lstinputlisting[language={}]{data/eth.txt}
+
+\textit{How to turn down/up an Ethernet interface?}
+
+Use the command \texttt{ifconfig <interface> up|down}.
+For example, to turn up the ethernet interface invoke \texttt{ifconfig eth0 up}.
+
+\textit{Ping 10 packets to two websites.
+Compare the statistic results (packet loss, average round-trip time)}
+
+\lstinputlisting[language={}]{data/ping1.txt}
+\lstinputlisting[language={}]{data/ping2.txt}
+
+Neither ping resulted in any packet loss.
+The ping to \verb|www.uvic.ca| had a faster round trip time than the ping to \verb|www.google.com|.
+This is expected because, presumably, the call to \verb|www.uvic.ca| does not have to leave the LAN whereas the call to \verb|www.google.com| must travel through the internet to reach the nearest Google server.
+This could be verified by executing \texttt{tracert} to determine the packet travel route.
+
+\subsection{Layered protocol}\label{sec:protocol}
+
+\textit{Draw the structure of a HTTP GET packet.}
+
+\input{graphics/osi_model}
+
+\textit{In the provided trace (lab1-wget-trace.pacp), calculate the average overhead of all the packets from the server to the client (in percentage).}
+
+First, it is necessary to determine the IPs of the server and client.
+Clients will initiate a GET request and servers will give the response.
+The HTTP GET request is sent from \texttt{142.104.81.181} to \texttt{74.125.129.94}.
+Therefore, the filter \[\texttt{ip.src==74.125.129.94 and ip.dst==142.104.81.181}\] will isolate traffic from the server to the client.
+
+Next, the frame length and data length for each frame are determined from WireShark.
+The Capture window has a column, Length, which gives the frame length.
+The TCP header \texttt{Len} gives the data length.
+The difference between the two lengths is the length of the header.
+These values are recorded, \emph{manually}, for each frame.
+
+The average overhead is given by:
+\begin{equation*}
+	\text{\% Overhead} = { \sum \left( \text{frame length} -  \text{data length} \right) \over \sum \text{frame length} } \times 100
+\end{equation*}
+and yeilds a 6.78\% overhead for the recorded traffic.
+
+\newpage
+\textit{Which Ethernet header field tells the next higher layer protocol is IP? What value is it used?}
+
+The header \texttt{Type: IP (0x0800)} indicates that the network layer is IP.
+
+\textit{Which IP header field tells the next higher layer protocol is TCP? What value is it used?}
+
+The header \texttt{Protocol: TCP (6)} indicates that the transport layer is TCP.

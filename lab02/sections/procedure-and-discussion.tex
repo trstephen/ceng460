@@ -1,0 +1,106 @@
+\section{Procedure and Discussion}\label{sec:p-and-d}
+\subsection{Ethernet}\label{sec:ethernet}
+Wireshark was used to examine the trace \texttt{ethernet-trace-1.pcap} which was obtained from the course lab website. Refering to packet 10, the HTTP GET request from a browser to \texttt{gaia.cs.umass.edu}:
+
+\textit{1. What is the 48-bit MAC address of the client computer?}
+
+The client MAC address is 00:d0:59:a9:3d:68.
+	
+\textit{2. What is the 48-bit destination MAC address in the Ethernet frame? Is this the MAC address of gaia.cs.umass.edu? Which device has this MAC address?}
+
+The destination MAC address is 00:06:25:da:af:73. This is not the MAC address of the host for gaia.cs.umass.edu. It is the MAC address of the router that will make the connection to the internet. Wireshark tells us that 00:06:25 corresponds to "LinksysG", indicating that the router is probably manufactured by Linksys.
+	
+\textit{3. Give the hexadecimal value for the two-byte Frame type field.}
+
+Frame type: IP (0x0800).
+	
+\textit{4. What is the value of the source MAC address? Is this the address of your computer, or of gaia.cs.umass.edu? Which device has this MAC address?}
+
+The source MAC address is 00:d0:59:a9:3d:68. This is the MAC address for the network card on my computer.
+
+\newpage
+The HTTP response frame tells us:
+
+\textit{5. What is the destination MAC address in the Ethernet frame? Is this supposed to be the Ethernet address of the computer you are using?}
+
+The desination MAC address is 00:d0:59:a9:3d:68, which is my computer. It is reasonable that the response message is addressed \textit{from} the router \textit{to} my computer.
+	
+\textit{6. Find the hexadecimal value for the two-byte Frame type field.}
+
+Frame type: IP (0x0800).
+
+\subsection{IEEE 802.11}\label{sec:proc-wifi}
+This section used the trace \texttt{wlan-trace-1.pcap}, also available from the course lab website. The trace contains captured wi-fi network traffic. The trace tells us:
+
+\textit{7. Which AP is the most active one (i.e., the one sends most Beacon messages)? What is its BSS ID?}
+
+BSS ID: Cisco-Li\_e3:e3:8f (00:16:b6:e3:e9:8f) sends all beacon messages. There are 458 messages.
+
+\textit{8. How many Data frames are in the trace, how many subtypes they have, and what is the most common subtype of these Data frames?}
+
+The filter \texttt{wlan.fc.type == 2} tells us that there are a total of 1783 Data frames. The breakdown of subtypes is
+
+\begin{table}[htpb]
+	\centering
+	\caption{WLAN Data subtypes}
+	\label{table:data}
+	\begin{tabular}{@{}clr@{}}
+		\toprule
+		Subtype & \multicolumn{1}{c}{Name} & \multicolumn{1}{c}{Count} \\ \midrule
+		0x20 & Data & 1743 \\
+		0x24 & Null function & 39 \\
+		0x22 & Data + CF-Poll & 1 \\ \hhline{~~=}
+		\multicolumn{2}{r}{Total} & 1783 \\ %\bottomrule
+	\end{tabular}
+\end{table}
+
+\newpage
+\textit{9. How many Control frames are in the trace, how many subtypes they have, and what is the most common subtype of these Control frames?}
+
+The filter \texttt{wlan.fc.type == 1} tells us that there are a total of 1391 Control frames. The breakdown of subtypes is
+
+\begin{table}[htpb]
+	\centering
+	\caption{WLAN Control subtypes}
+	\label{table:control}
+	\begin{tabular}{@{}clr@{}}
+		\toprule
+		Subtype & \multicolumn{1}{c}{Name} & \multicolumn{1}{c}{Count} \\ \midrule
+		0x1d & Acknowledgment & 1385 \\
+		0x1c & Clear-to-send & 5 \\
+		0x1a & Power-Save poll & 1 \\ \hhline{~~=}
+		\multicolumn{2}{r}{Total} & 1391 \\ %\bottomrule
+	\end{tabular}
+\end{table}
+
+\textit{10. How many Management frames are in the trace, how many subtypes they have, and what is the most common subtype of these Management frames?}
+
+The filter \texttt{wlan.fc.type == 0} tells us that there are a total of 557 Management frames. The breakdown of subtypes is
+
+\begin{table}[htpb]
+	\centering
+	\caption{WLAN Management subtypes}
+	\label{table:mgmt}
+	\begin{tabular}{@{}clr@{}}
+		\toprule
+		Subtype & \multicolumn{1}{c}{Name} & \multicolumn{1}{c}{Count} \\ \midrule
+		0x08 & Beacon frame & 458 \\
+		0x04 & Probe request & 81 \\
+		0x05 & Probe response & 14 \\
+		0x0b & Authentication & 2 \\
+		0x00 & Authentication request & 1 \\
+		0x01 & Authentication response & 1 \\ \hhline{~~=}
+		\multicolumn{2}{r}{Total} & 557 \\ %\bottomrule
+	\end{tabular}
+\end{table}
+
+\textit{11. Estimate the retransmission times, i.e., the number of retransmissions (i.e., the total number of transmissions - number of original frames) over the number of original transmissions. Show your calculation.}
+
+The total number of data frames without retry is 1430, which is found by applying filter \texttt{wlan.fc.type == 2 \&\& wlan.fc.retry == 0}. The number of data frames with retry is 353 and is given by the filter \texttt{wlan.fc.type == 2 \&\& wlan.fc.retry == 1}. The total of these two values is 1783, which is the total number of Data frames from Table \ref{table:data}. The retransmission ratio, is:
+\begin{align*}
+	{\text{no. retransmissions} \over \text{no. tansmissions without retry}} = {353 \over 1430} = 0.24685.
+\end{align*}
+
+\textit{12. What are the Type and Subtype values for the Association Request / Association Response frames, Probe Request / Probe Response frames, respectively?}
+
+These frame types are Management frame subtypes and are listed in Table \ref{table:mgmt}. Wireshark associates 0x00 and 0x01 to \textit{Authentication} request / response. Cisco support documents\footnote{\url{https://supportforums.cisco.com/document/52391/80211-frames-starter-guide-learn-wireless-sniffer-traces}} indicate that subtypes 0x00 and 0x01 may refer to the \textit{Association} request / response.

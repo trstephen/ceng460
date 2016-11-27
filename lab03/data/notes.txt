@@ -1,0 +1,132 @@
+ARP
+=======
+ARP request (packet 1)
+	1. hex value for src: 00:d0:59:a9:3d:68
+	   hex value for dest: ff:ff:ff:ff:ff:ff
+
+	2. hex value for ethernet frame type: 
+		ARP (0x0806)
+
+	3. Where are the ARP opcodes? (field?) 
+		after protocol, before sender MAC
+	   how many bytes first bit of opcode and first bit of ARP msg?
+	   	op code is 2 bytes long???????
+
+	4. Opcode value within ARP payload?
+		0x0001 (request)
+
+	5. Does the msg contain IP of sender?
+		yes, 192.168.1.105
+
+ARP response (packet 2)
+	6. # bytes between first bit of opcode and first bit of ARP msg?
+		2 bytes????
+
+	7. Opcode value within ARP payload?
+		0x0002 (reply)
+
+	8. MAC address answered to earlier query?
+		sender MAC: 00:06:25:da:af:73
+
+	9. hex value for src: 00:06:25:da:af:73
+	   hex value for dest: 00:d0:59:a9:3d:68
+
+	10. Why is there no reply to the second query (packet 6)?
+		no one has that IP!
+
+
+IP
+=======
+HTTP GET (packet 10)
+	1. Sketch the packet to show posn + size of IP header fields and their values in hex
+		Version: 4, 0x4 (1/2b)
+		Header length: 20b, 0x5 (1/2b)
+		Differentiated Services Field: 0x00 (1b)
+			Codepoint: 0x0 (6bit)
+			Explicit Congestion Notificaion: 0x0 (2bit)
+		Total length: 672, 0x02a0 (2b)
+		ID: 250, 0x00fa (2b)
+		Flags: (3bit)
+			Reserved: 0
+			Don't Fragment: 1
+			More fragments: 0
+		Fragment offset: 0 (13bit)
+		TTL: 128, 0x8 (1b)
+		Protocol: TCP, 0x6 (1b)
+		Header checksum: 0xbfc8 (2b)
+		Source: 192.168.1.106, 0xc0a80169 (4b)
+		Dest: 128.119.245.12, 0x(4b)
+
+	2. src IP: 192.168.1.105
+	   src MAC: 00:d0:59:a9:3d:68
+	   dest IP: 128.119.245.12
+	   dest MAC: 00:06:25:da:af:73
+
+All packets
+	3. How does the value of the ID field change? Is there a pattern?
+		Increment by 1, src and dest have their own counters
+
+	4. How do you determine that a packet has not been fragmented?
+		DF flag set to 1
+
+
+ICMP
+=======
+ping www.engr.uvic.ca -c 10 > ping.txt
+	1. src IP: 142.104.115.34
+	   dest IP: 142.104.96.10
+
+	2. avg RTT?
+		tot: 4.627 ms
+		avg: 0.4627 ms
+
+	3. Ping req (Packet 634)
+		ICMP type: 8, Echo (ping) req
+		ICMP code no: 0
+		Other ICMP fields: 
+			Checksum, Identifier, Seq no, Timestamp from ICMP data (8b)
+		Checksum bytes: 2b
+		Seq. no: 2b
+		Identifier fields: 2b
+
+	4. Ping reply (Packet 635)
+		ICMP type: 0, Echo (ping) reply
+		ICMP code no: 0
+		Other ICMP fields: 
+			Checksum (2b)
+			Identifier (2b)
+			Seq no (2b)
+			Timestamp (4b)
+		Checksum bytes:
+		Seq. no:
+		Identifier fields:
+
+traceroute www.enger.uvic.ca > traceroute.txt
+	5. src IP: 142.104.115.34
+	   dest IP: 142.104.193.247
+
+	6. error packet (Packet 365)
+		Extra fields + contents?
+			Extra Type (11, TTL exceeded) code and checksum wrapped around original header
+
+		What is TTL field?
+			No. routers packet can pass through before it expires
+
+	7. # routers b/w src and dest? Draw this!
+		142.104.115.34, 
+		142.104.127.254,
+		192.168.9.2,
+		192.168.10.1,
+		192.168.8.6,
+		142.104.252.21,
+		142.104.252.18,
+		142.104.193.247
+
+	8. Avg RTT b/w src and each router?
+		518us, 518, 779 // 605
+		235, 241, 479 // 318.33
+		768, 1054, 1061 // 961
+		745, 746, 1037 // 842.67
+		737, 1027, 1030 // 931.33
+		1017, 841, 1148 // 1002
+		890, 675, 663 // 742.67

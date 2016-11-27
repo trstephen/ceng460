@@ -1,0 +1,24 @@
+uploading alice.txt
+tcp-trace-1.cap
+=====
+1. GET gaia.cs.umass.edu
+2. upload alice.txt
+	a. TCP setup
+		- 3 way handshake
+		- MSS, SACK?
+	b. POST alice.txt 
+		- packets 1->3 setup
+		- packet 4 starts POST & data tx
+		- file broken up into MSS packets
+		- congestion window expands as transfer progresses
+		- rx buffer fills and rx window shrinks
+	c. GET contgrats page
+	d. TCP teardown
+		- TCP segs with FIN -> need ACK
+
+Retransmission in TCP
+tcp-trace-retransmission.cap
+=====
+- Connection between laptop and desktop on WLAN
+- desktop: 192.168.0.100:4480
+- laptop:  192.168.0.102:5001

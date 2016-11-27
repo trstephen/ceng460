@@ -1,0 +1,48 @@
+\subsection{TCP Congestion control}
+\begin{Question}
+	Examine the 4th to 15th TCP segments and take a reference to the Table in Question~\ref{q:flow-table} of Section~\ref{sec:tcp-data-flow}. Can you find a pattern of the number of segments sent from the client and from the server \texttt{gaia.cs.umass.edu}? Why did the TCP data flow have such a pattern?
+\end{Question}
+\begin{Answer}
+	Two packets are sent from the client before one packet is sent from the server.
+	This pattern corresponds to the exponential growth of the packet transmission rate in the slow start period.
+\end{Answer}
+
+\begin{Question}
+	What is the initial size of congestion window? How do you determine this? What is the size of congestion window when segment 5, 8, 11 and 14 were sent out?
+\end{Question}
+\begin{Answer}
+	The congestion window is equivalent to the amount of packets in the receiver buffer.
+	It can be determined by subtracting the number of ACKs from the number of packets sent (assuming no loss).
+
+	Segment 5 sent: 1 segments in receiver buffer \\
+	Segment 8 sent: 2 segments in receiver buffer \\
+	Segment 11 sent: 3 segments in receiver buffer \\
+	Segment 14 sent: 4 segments in receiver buffer
+
+	Note, the packet being sent (5, 8, $\ldots$) is not counted as in the receiver's buffer.
+\end{Answer}
+
+\begin{Question}
+	In the lecture we have learned that the congestion window doubles its size in every RTT in the slow start phase. Beginning with the 4th packet, what is the size of the congestion window and which packet were inside the congestion window (i.e., these packets could be sent) during the first RTT\@? What is the size of the congestion window and which packet were inside the congestion window during the second RTT\@? How about the third RTT\@? Give the segment numbers.
+\end{Question}
+
+\begin{table}[htpb]
+	\centering
+%	\caption{My caption}
+	\begin{tabular}{@{}ccl@{}}
+		\toprule
+		Round Trip & Segment $\rightarrow$ ACK & \textcol{Segments in buffer} \\ 
+		\midrule
+		1 & 4 $\rightarrow$ 6 & 5 \\
+		2 & 5 $\rightarrow$ 9 & 7, 8 \\
+		3 & 7 $\rightarrow$ 12 & 8, 10, 11 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{Question}
+	When did the sender’s congestion control change from the slow start phase to the congestion avoidance phase? Give the segment number and the time. How do you determine this?
+\end{Question}
+\begin{Answer}
+	The behavior changes at packet 67, which is \SI{0.475266}{\second} after packet 4. At this point, the client sends out one packet per ACK. This is because the server has ACKed the first 29874 b and has a window of 32767 b. Hence, the largest sequence number is can receive is 62641. Packet 67 will send data up to segment 61993. The next segment will cover 61994 $\rightarrow$ 63454, which will overflow the receiver's buffer. Hence, it must wait for an ACK with sequence number 61994 before sending this packet. 
+\end{Answer}

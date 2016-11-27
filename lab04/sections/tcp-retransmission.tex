@@ -1,0 +1,26 @@
+\subsection{Retransmission in TCP (Optional)}
+\begin{Question}
+	Segment 12 is the first retransmission. What is it in the segment that identifies the segment as a retransmission? Which segment was segment 12 retransmitted for?
+\end{Question}
+\begin{Answer}
+	The sequence number in 12 is 1001 (relative).
+	This is the same sequence number as segment 5.
+	Hence, segment 12 is a retransmission of segment 5.
+\end{Answer}
+
+\begin{Question}
+	Segment 12 is a fast retransmission, which should be triggered by triple- duplicated-acknowledgment. Find the three acknowledgments which triggered the fast retransmission of segment 12.
+\end{Question}
+\begin{Answer}
+	Segments 6, 9 and 11 contain ACKs for segment 1001.
+\end{Answer}
+
+\begin{Question}
+	Is segment 44 a fast retransmission or timeout retransmission? How do you determine this?
+\end{Question}
+\begin{Answer}
+	It's a timeout retransmission.
+	The segment has only been ACKed once, in segment 43.
+	There's also a \SI{1.47}{\second} delay between the ACK in segment 43 and the retransmission in 44.
+	This long delay is indicative of a timeout.
+\end{Answer}

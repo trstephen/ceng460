@@ -1,0 +1,79 @@
+\begin{figure}[htpb]
+\centering
+	\begin{tikzpicture}
+	[
+		->,
+		>=stealth',
+		start chain=1 going below,
+		every node/.style={
+			rectangle,
+			rounded corners,
+			draw=black, very thick,
+			text centered,
+			text width=5cm,
+			minimum height=3em,
+			inner sep=2pt,
+			text centered,
+			on chain=1,
+		}
+		]
+		
+		\node (SRC) 
+		{
+			\textbf{142.104.115.34}
+		};
+		
+		\node (R1)
+		{
+			\textbf{142.104.127.254} \\
+			\SI{605}{\micro\second}
+		};
+		
+		\node (R2)
+		{
+			\textbf{192.168.9.2} \\
+			\SI{318}{\micro\second}
+		};
+		
+		\node (R3)
+		{
+			\textbf{192.168.10.1} \\
+			\SI{961}{\micro\second}
+		};
+		
+		\node (R4)
+		{
+			\textbf{192.168.8.6} \\
+			\SI{843}{\micro\second}
+		};
+		
+		\node (R5)
+		{
+			\textbf{142.104.252.21} \\
+			\SI{931}{\micro\second}
+		};
+		
+		\node (R6)
+		{
+			\textbf{142.104.252.18} \\
+			\SI{1002}{\micro\second}
+		};
+		
+		\node (DEST)
+		{
+			\textbf{142.104.193.247} \\
+			\SI{743}{\micro\second}
+		};
+
+		\path 
+			(SRC)	edge	(R1)
+			(R1)	edge	(R2)
+			(R2)	edge	(R3)
+			(R3)	edge	(R4)
+			(R4)	edge	(R5)
+			(R5)	edge	(R6)
+			(R6)	edge	(DEST)
+		;
+	
+	\end{tikzpicture}
+\end{figure}

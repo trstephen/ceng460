@@ -1,0 +1,7 @@
+\section{Conclusion}\label{sec:conclusion}
+The TCP header contains useful information for connection setup \textemdash\ such as the port numbers and advertised capabilities like SACK \textemdash\ and for relaying the current state of the two hosts' buffers via the ACK and window length fields.
+During the slow start phase, the sender will send two segments for every ACK received.
+As the transmission continues, the amount of packets in the receiver's buffer doubles during every round trip.
+When the sender comes close to filling the receiver's buffer it transitions to congestion avoidance operation and sends one segment per ACK.\@
+After the transfer is complete, a FIN request is sent to terminate the connection.
+The termination occurs when the RST packet is sent.

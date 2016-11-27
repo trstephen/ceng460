@@ -1,0 +1,83 @@
+\subsection{TCP Header format}
+\begin{Question}
+	Write down the TCP header content in hexadecimal format (in the packet bytes pane). Inspect the TCP header and indicate the value of each field in the header. Annotate the hexadecimal content to explain your answer.
+\end{Question}
+\begin{Answer}
+	Using packet 1, the TCP header contains the following fields:
+	\begin{itemize}
+		\item Source port: \hex{0954} (2388)
+		\item Destination port: \hex{0050} (80)
+		\item Sequence No.: \hex{b93c1f07} (3107725063)\footnote{Wireshark assigns this a relative value of 0}
+		\item Acknowledgement No.: \hex{00000000} (0)
+		\item Header length: \hex{7} (28 bytes)
+		\item Flags: \hex{002} (SYN)
+		\item Window size value: \hex{4000} (16384)
+		\item Checksum: \hex{e0ae} (invalid, disabled)
+		\item Urgent pointer: \hex{0000} (Not urgent)
+		\item Option 1
+		\begin{itemize}
+			\item Kind: \hex{02} (MSS)
+			\item Length: \hex{04} (4)
+			\item MSS Value: \hex{05b4} (1460)
+		\end{itemize}
+		\item Option 2
+		\begin{itemize}
+			\item Type: \hex{01} (NOP)
+		\end{itemize}
+		\item Option 3
+		\begin{itemize}
+			\item Type: \hex{01} (NOP)
+		\end{itemize}
+		\item Option 4
+		\begin{itemize}
+			\item Kind: \hex{04} (SACK Permitted)
+			\item Length: \hex{02} (2)
+		\end{itemize}
+	\end{itemize}
+\end{Answer}
+
+\begin{Question}
+	What are TCP port numbers used by the client computer (source) and the server (destination) when transferring the file to \texttt{gaia.cs.umass.edu}? How did the client computer determine the port numbers when it wanted to set up a TCP connection to the server?
+\end{Question}
+\begin{Answer}
+	The client uses port 2388 and the server uses port 80.
+	The client assigns a non-reserved port for use and assumes the server is using the well known port number for HTTP traffic (80).
+\end{Answer}
+
+\begin{Question}
+	What is the maximum header length? Given the value of the Header Length field, how to calculate the length of the header in the unit of bytes? Verify your answer using the first TCP segment in the trace file.
+\end{Question}
+\begin{Answer}
+	The maximum value of a header length is 60 bytes~\cite{wiki-tcp}.
+	The field is composed of four bits and corresponds to the number of 32 bit (4 byte) words in the header.
+	The first segment has a Header Length of 7 and this corresponds to the 28 byte header.
+\end{Answer}
+
+\begin{Question}
+	(Optional) How does TCP calculate the Checksum field? What is the pseudo-header format? Write down the pseudo-header of the flow from the client to the server in hexadecimal format. Verify the Checksum value in the first TCP segment in the trace file.
+\end{Question}
+\begin{Answer}
+	The checksum algorithm is:
+	\begin{enumerate}
+		\item Divide the hex value of the header and data into 16 bit groups and sum
+			\begin{itemize}
+				\item A pseudo-header must be created (see later)
+				\item The checksum field is filled with 0s
+				\item Bits are right-padded to fill a 16 bit group
+			\end{itemize}
+		\item Divide the sum by \hex{FFFF} and add the remainder
+		\item Find the 1s complement of this number and use it as the checksum~\cite{tcp-checksum}.
+	\end{enumerate}
+	The pseudo-header for packet 1 is 12 bytes consisting of data from the IP header:
+	\begin{enumerate}
+		\item Source IP address, \hex{0a000105} (4 bytes)
+		\item Destination address, \hex{8077f50c} (4 bytes)
+		\item Reserved bits, \hex{00} (1 byte)
+		\item Protocol, \hex{06} (1 byte, corresponds to TCP)
+		\item TCP Length \hex{0028} (2 bytes, corresponds to TCP header and data length)~\cite{tcp-checksum}
+	\end{enumerate}
+\end{Answer}
+
+% 0x19EA4 // 0x615A // just TCP header sum
+% 0x31F5A // 0x1F5D // sum of TCP header and pseudo header
+%  gives 0xE0A2 instead of 0xE0AE

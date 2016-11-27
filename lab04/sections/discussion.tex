@@ -1,0 +1,12 @@
+\section{Procedure and discussion}\label{sec:discussion}
+\texttt{tcp\-trace\-1.cap} contains traffic where a client uploads a the contents of \emph{Alice in Wonderland} to a remote server.
+An HTTP POST initiates the upload and an HTTP 200 OK response is issued from the server when the upload is complete.
+The TCP traffic in the file captures the entire conversation, starting with the three-way handshake, then the file transfer and finally the connection closure.
+
+\input{sections/tcp-header}
+\input{sections/tcp-connection-setup}
+\input{sections/tcp-data-flow}
+\input{sections/tcp-connection-release}
+\input{sections/tcp-congestion-control}
+\input{sections/tcp-flow-control}
+\input{sections/tcp-retransmission}

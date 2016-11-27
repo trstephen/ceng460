@@ -1,0 +1,20 @@
+~ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:13:72:99:9D:C3  
+          inet addr:192.168.109.17  Bcast:192.168.109.255  Mask:255.255.255.0
+          inet6 addr: fe80::213:72ff:fe99:9dc3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:392233 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:76107 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:386553389 (368.6 MiB)  TX bytes:6078867 (5.7 MiB)
+          Interrupt:16 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:160 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:160 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:8330 (8.1 KiB)  TX bytes:8330 (8.1 KiB)
+

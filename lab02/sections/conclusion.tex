@@ -1,0 +1,4 @@
+\section{Conclusion}\label{sec:conclusion}
+Examining the source and desination addresses of the traffic in the ethernet trace makes it clear that MAC addresses are only known for the ``next hop'' in the network. The client in the trace only knows about its own MAC address and the address of its router. This is because the final destination address is located in the next layer up, the network layer, and is obscured from the link layer.
+
+The IEEE 802.11 wifi trace contains frames from each of the three possible types: Data, Control and Management. Nearly all of the Data frames have the Data subtype; Nearly all of the Control frames have the Acknowledgement subtype, and; Nearly all of the Management frames are Beacon frames. The trace had a retransmission rate of 0.24685, indicating that almost one quarter of the frames needed to be retransmitted.

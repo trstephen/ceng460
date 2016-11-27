@@ -1,0 +1,11 @@
+\section{Conclusion}\label{sec:conclusion}
+Retrieving a webpage with \texttt{wget} demonstrated that several protocols are necessary to retrieve HTTP content.
+The high volume of frame traffic was exposed by WireShark.
+The OSI model effectively obscures the bulk of this communication via protocols which communicate layer-to-layer.
+
+\texttt{netstat} and \texttt{ifconfig} can be used to determine the network configuration of a Unix machine.
+\texttt{ping} displays the transmission success and round trip time statistics from a machine to a remote address.
+
+WireShark was able to display the header information from multiple protocols in \textit{lab1-wget-trace.pcap}.
+The headers contained information about the type of the parent layer.
+Headers made up a total of 6.78\% of the data from the server to the client.

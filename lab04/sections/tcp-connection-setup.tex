@@ -1,0 +1,48 @@
+\subsection{TCP Connection setup}
+\begin{Question}
+	Which segments are the initial three-way handshake in the trace file? How do you find them?
+\end{Question}
+\begin{Answer}
+	The initial handshake occurs in segments 1, 2 and 3.
+	Segments 1 and 2 have SYN flag set, which identify them as connection initiators.
+	Segment 3 is the ACK to the server's SYN in segment 2.
+\end{Answer}
+
+\begin{Question}
+	What is the actual initial sequence number in each direction (in hexadecimal format)?
+\end{Question}
+\begin{Answer}
+	Client $\rightarrow$ Server: \hex{b93c1f07}\\
+	Server $\rightarrow$ Client: \hex{8661d89a}
+\end{Answer}
+
+\begin{Question}
+	What is the value of the acknowledgement number in the SYN/ACK segment? How did \texttt{gaia.cs.umass.edu} determine that value?
+\end{Question}
+\begin{Answer}
+	The ACK number is \hex{b93c1f08}.
+	It represents the next sequence that it can receive and is one greater than this Client $\rightarrow$ Server initial sequence number.
+\end{Answer}
+
+\begin{Question}
+	What are the values of the sequence number and the acknowledgment number in the third ACK segments in the three-way handshake? How did the client determine these values?
+\end{Question}
+\begin{Answer}
+	The sequence number is \hex{b93c1f08} and is the segment requested by the server in segment 2.
+	The ACK is \hex{8661d89b} and corresponds to an acknowledgment of the server's SYN request.
+\end{Answer}
+
+\begin{Question}
+	How did the client and the server announce the maximum TCP payload size that they were willing to accept? What are the values and why did they choose these values?
+\end{Question}
+\begin{Answer}
+	The SYN requests from both the client and server contain a TCP option specifying an MSS of 1460 bytes.
+	This corresponds to the optimal ethernet packet size of 1500 bytes, less two 20 byte headers.
+\end{Answer}
+
+\begin{Question}
+	Is there data sent in the SYN, SYN/ACK, and ACK segment?
+\end{Question}
+\begin{Answer}
+	No.
+\end{Answer}

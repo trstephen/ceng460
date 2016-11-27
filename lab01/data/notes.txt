@@ -1,0 +1,41 @@
+email to: andaliby@uvic.ca
+
+Discussion: 
+# 1.3.1
+3 diff protocols:
+  DNS, HTTP, TCP, TLSv1.2
+
+length from GET to OK?
+  GET: 0.007271199
+  OK:  0.056242508
+
+# 1.3.2
+How many ethernet interfaces?
++
+
+How to turn up/down ethernet interface?
+ifconfig <interface> up|down
+e.g. ifconfig eth0 up
+
+Compare ping of 10 packets to 2 diff sites
++
+
+# 1.3.3
+Draw struct of HTTP GET packet
+  App: HTTP GET 
+  Tpt: TCP
+  Net: IPv4
+  Eth: Ethernet II
+  (Frame)
+
+Stats from server -> host
+  filter: ip.src==74.125.129.94 and ip.dst==142.104.81.181
+  % headers: 6.777273439%
+
+Which ethernet header field tells the next higher layer protocol is IP?
+Which value is used?
+  Type: IP (0x0800)
+
+Which IP header field tells the next higher layer protocol is TCP?
+What value is used?
+  Protocol: TCP (6)

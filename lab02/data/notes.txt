@@ -1,0 +1,55 @@
+Ethernet
+	- What is the 48-bit MAC address of the client computer?
+		00:d0:59:a9:3d:68
+
+	- What is the 48-bit destination MAC address in the Ethernet frame? Is this the MAC address of gaia.cs.umass.edu? Which device has this MAC address?
+		00:06:25:da:af:73
+		00:06:25 corresponds to "LinksysG", which is a router manufacturer
+		This is probably the address of the router.
+
+	- Give the hexadecimal value for the two-byte Frame type field.
+		Frame type: IP (0x0800)
+
+	- What is the value of the source MAC address? Is this the address of your computer, or of gaia.cs.umass.edu? Which device has this MAC address?
+		00:d0:59:a9:3d:68
+
+	- What is the destination MAC address in the Ethernet frame? Is this supposed to be the Ethernet address of the computer you are using?
+		00:d0:59:a9:3d:68, it's my computer!
+
+	- Find the hexadecimal value for the two-byte Frame type field.
+		Frame type: IP (0x0800)
+
+WLAN
+	- Which AP is the most active one (i.e., the one sends most Beacon messages)? What is its BSS ID?
+		BSS ID: Cisco-Li_e3:e3:8f (00:16:b6:e3:e9:8f) sends all beacon requests. There are 458 of them.
+
+	- How many Data frames are in the trace, how many subtypes they have, and what is the most common subtype of these Data frames?
+		1783 	Data frames (wlan.fc.type == 2)
+		1 		Data + CF-Poll (0x22)
+		39		Null function (0x24)
+		1743	Data (0x20)
+
+	- How many subtypes of Control frames are in the trace, what are they, and what is the most common subtype?
+		1391 	Control frames (wlan.fc.type == 1)
+		1385 	Acknowledgement (0x1d)
+		5 		Clear-to-send (0x1c)
+		1 		Power-Save poll (0x1a)
+
+	- How many subtype of Management frames are in the trace, what are they, and what is the most common subtype?
+		557		Management frames (wlan.fc.type == 0)
+		458		Beacon frame (0x08)
+		81		Probe request (0x04)
+		14 		Probe response (0x05)
+		2 		Authentication (0x0b)
+		1 		Authentication request (0x00)
+		1 		Authentication response (0x01)
+
+	- Estimate the retransmission times, i.e., the number of retransmissions (i.e., the total number of transmissions - number of original frames) over the number of original transmissions. Show your calculation.
+		1783	Total data frames (wlan.fc.type == 2)
+		1430	Data frame no retry (wlan.fc.type == 2 && wlan.fc.retry == 0)
+		353		Data frame retry (wlan.fc.type == 2 && wlan.fc.retry == 1)
+
+
+	- What are the Type and Subtype values for the Association Request / Association Response frames, Probe Request / Probe Response frames, respectively?
+
+note: "802.11 frames: a starter guide to learn wireless sniffer tracers" has a list of all ethernt frame types and subtypes

@@ -1,0 +1,5 @@
+\pagebreak
+\section{Conclusion}\label{sec:conclusion}
+The document request trace demonstrated that ARP requests are broadcast but their replies are unicast. ARP requests are not guaranteed a reply, and will not receive one if the destination IP is unavailable or unassigned. By analyzing all the packets, it is clear that the identification field is tied to unique counters for each host that increments each time a message is sent. 
+
+Ping and Traceroute are ICMP functions that yield information about the speed and topology of a network. Ping determines network speed by finding the time elapsed between request and reply message. Traceroute determines network topology by sending out multiple requests with staggered TTLs and uses the TTL Expired error messages to determine distances.

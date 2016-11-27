@@ -1,0 +1,45 @@
+% Adapted from http://www.texample.net/tikz/examples/pera-model/
+
+\begin{figure}[htpb]
+	\centering
+	\begin{tikzpicture}[
+	scale=0.75,
+	start chain=1 going below, 
+	start chain=2 going right,
+	node distance=1mm,
+	protocol/.style={
+		scale=0.75,
+		on chain=2,
+		rectangle,
+		rounded corners,
+		draw=black, 
+		very thick,
+		text centered,
+		text width=6cm,
+		minimum height=12mm,
+	},
+	layer/.style={
+		scale=0.75,
+		on chain=1,
+		minimum height=12mm,
+		text width=2cm,
+		text centered
+	},
+	every node/.style={font=\sffamily}
+	]
+	
+	% Layers
+	\node [layer] (APP) {Application};
+	\node [layer] (TPT) {Transport};
+	\node [layer] (NET) {Network};
+	\node [layer] (LINK) {Link};
+	
+	% Protocols
+	\chainin (APP); % Start right of APP
+	\node [protocol] (HTTP) {HTTP/GET};
+	\node [protocol, continue chain=going below] (TCP) {TCP};
+	\node [protocol] (IP) {IPv4};
+	\node [protocol] (eth0) {Ethernet};
+	
+	\end{tikzpicture}
+\end{figure}

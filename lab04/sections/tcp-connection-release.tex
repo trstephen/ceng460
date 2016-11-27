@@ -1,0 +1,27 @@
+\subsection{TCP Connection release}
+\begin{Question}
+	Which packets were used to close the data flow from the server to the client? How do you determine this?
+\end{Question}
+\begin{Answer}
+	Packets 348 and 349 close the server $\rightarrow$ client connection.
+	348 is a FIN, which requests to close the connection from the server to the client.
+	The ACK in 349 confirms this closure.
+\end{Answer}
+
+\begin{Question}
+	Which packets were used to close the data flow from the client to the server? How do you determine this?
+\end{Question}
+\begin{Answer}
+	Packet 350 is a RST request from the client to the server.
+	This terminates all existing connections and does not need an ACK.
+\end{Answer}
+
+\begin{Question}
+	(Optional) In the FIN segment, what is the sequence number? In the corresponding ACK segment, what is the acknowledgement number? How did the client determine this number?
+\end{Question}
+\begin{Answer}
+	FIN sequence number: 725 \\
+	ACK sequence number: 726 \\
+	As with all other ACKs, it is one up from the last received sequence.
+	Nothing special happens.
+\end{Answer}

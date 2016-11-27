@@ -1,0 +1,6 @@
+\section{Feedback}\label{sec:feedback}
+\begin{itemize}
+	\item Capture traffic from a network with three hosts: A, B, C. A sends an ARP request for B's IP and B sends a response. C sends a message to A without a corresponding ARP request. Investigate why. (C knows A's MAC address from A's broadcast to find B.)
+	\item Execute two \texttt{traceroute}s: one between local hosts and one from local-to-WAN. Does the mismatch between distance and reply time that exists for the local hosts also exist for the local-to-WAN case?
+	\item Use \texttt{traceroute} for multiple websites in different countries. Where do the routes overlap? Construct a composite graph based on the routes that were obtained. Routes can be determined via the command line instead of through packet inspection in Wireshark.
+\end{itemize}

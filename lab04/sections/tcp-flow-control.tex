@@ -1,0 +1,7 @@
+\subsection{TCP Flow control}
+\begin{Question}
+	Examine the 179th segment in the trace file, why did the sender stop sending more segments? What is the size of receiver window advertised by the receiver at this moment? How do you determine this?
+\end{Question}
+\begin{Answer}
+	Packet 157 has an ACK for segment 131746 and a window of 32767. Hence, the largest segment it can receive is 164513. Packet 179 contains a highest segment value of 163865. Sending out another packet of 1514 b packet will overflow the receiver window. Hence, the next packet is sent out only after an ACK is received.
+\end{Answer}

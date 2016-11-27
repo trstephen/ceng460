@@ -1,0 +1,156 @@
+\section{Discussion}\label{sec:discussion}
+\subsection{ARP Functions}
+\subsubsection{ARP Request (Packet 1)}
+\textit{1. What are the hexadecimal values for the source and destination addresses in the Ethernet frame containing the ARP request message?}
+
+Source address: \texttt{00:d0:59:a9:3d:68} \\
+Destination address: \texttt{ff:ff:ff:ff:ff:ff} (broadcast)
+
+\textit{2. Find the hexadecimal value for the two-byte Ethernet Frame type field.}
+
+The hex value is \texttt{0x0806}, which corresponds to an ARP message.
+
+\textit{3. Where the ARP opcode (operation code) field is located, i.e., how many bytes are there between the first bit of the opcode and the first bit of the ARP message?}
+
+The ARP message contains, in order: Hardware type (2 bytes); Protocol type (2 bytes); Hardware size (1 byte); Protocol size (1 byte), and; Opcode (2 bytes). Hence, the opcode is 6 bytes from the start the the ARP message.
+
+\textit{4. What is the value of the opcode field within the ARP-payload part of the Ethernet frame, in which an ARP request is made?}
+
+The opcode is \texttt{0x0001}, which corresponds to an ARP request.
+
+\textit{5. Does the ARP message contain the IP address of the sender?}
+
+Yes, the IP is \texttt{192.168.1.105}.
+
+\pagebreak
+\subsubsection{ARP Response (Packet 2)}
+\textit{6. Where the ARP opcode (operation code) field is located, i.e., how many bytes are there between the first bit of the opcode and the first bit of the ARP message?}
+
+As with the request, the opcode is 6 bytes from the start of the ARP message.
+
+\textit{7. What is the value of the opcode field within the ARP-payload part of the Ethernet frame, in which an ARP request is made?}
+
+The opcode is \texttt{0x0002}, which corresponds to an ARP reply.
+
+\textit{8. What is the MAC address answered to the earlier ARP query?}
+
+The sender of the reply returns its MAC address: \texttt{00:06:25:da:af:73}.
+
+\textit{9. What are the hexadecimal values for the source and destination ad- dresses in the Ethernet frame containing the ARP reply message?}
+
+Source address: \texttt{00:06:25:da:af:73} \\
+Destination address: \texttt{00:d0:59:a9:3d:68}
+
+\textit{10. Why there is no ARP reply for the second ARP query (in packet No. 6)?}
+
+The query goes unanswered either because the owner is unreachable or the IP is not owned by anyone on the local network.
+
+\pagebreak
+\subsection{Analyzing IP frames}
+\subsubsection{HTTP GET (Packet 10)}
+\textit{1. Sketch a figure of the packet you selected (packet 10) to show the position and size in bytes of the IP header fields, as well as the values in hexadecimal. Your figure can simply show the frame as a long, thin rectangle.}
+
+\begin{table}[htpb]
+	\centering
+%	\caption{My caption}
+	\label{my-label}
+	\begin{tabular}{|c|cccccccccccccccc|}
+		\hline
+		\multirow{2}{*}{Offset} & \multicolumn{16}{c|}{Bit Position} \\
+		& 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\ \hline 
+		\multicolumn{1}{|c|}{0} & \multicolumn{4}{c|}{Version} & \multicolumn{4}{c|}{IHL} & \multicolumn{6}{|c|}{DSCP} & \multicolumn{2}{c|}{ECN} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{4}{c|}{\texttt{0x4}} &  
+			\multicolumn{4}{c|}{\texttt{0x5}} &  
+			0 & 0 & 0 & 0 & 0 & \multicolumn{1}{c|}{0} & 
+			0 & 0 \\
+			\hline 
+		\multicolumn{1}{|c|}{16} & \multicolumn{16}{c|}{Total Length} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{16}{c|}{\texttt{0x02a0}} \\ 
+			\hline 
+		\multicolumn{1}{|c|}{32} & \multicolumn{16}{c|}{Identification} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{16}{c|}{\texttt{0x00fa}} \\ 
+			\hline 
+		\multicolumn{1}{|c|}{48} & \multicolumn{3}{c|}{Flag} & \multicolumn{13}{c|}{Fragment Offset} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			0 & 1 & \multicolumn{1}{c|}{0} & 
+			0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+			\hline 
+		\multicolumn{1}{|c|}{64} & \multicolumn{8}{c|}{Time To Live} & \multicolumn{8}{c|}{Protocol} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{8}{c|}{\texttt{0x08}} & 
+			\multicolumn{8}{c|}{\texttt{0x06}} \\ 
+			\hline 
+		\multicolumn{1}{|c|}{80} & \multicolumn{16}{c|}{Header Checksum} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{16}{c|}{\texttt{0xbfc8}} \\ 
+			\hline
+		\multicolumn{1}{|c|}{96} & \multicolumn{16}{c|}{Source IP Address} \\ \cline{2-17} 
+		\multicolumn{1}{|c|}{} & 
+			\multicolumn{16}{c|}{\multirow{2}{*}{\texttt{0xc0a80169}}} \\
+			\multicolumn{1}{|c|}{} & \multicolumn{16}{l|}{} \\ 
+			\hline
+		\multicolumn{1}{|c|}{128} & \multicolumn{16}{c|}{Destination IP Address} \\ \cline{2-17}
+			\multicolumn{1}{|c|}{} & \multicolumn{16}{c|}{\multirow{2}{*}{\texttt{0x8077f50c}}} \\
+			\multicolumn{1}{|c|}{} & \multicolumn{16}{l|}{} \\ 
+			\hline 
+	\end{tabular}
+\end{table}
+
+Since number of bits for the DSCP, ECN, Flags, and Fragment Offset fields are not divisible by 4 they have no unpadded hexadecimal equivalent. The raw bit values have been displayed instead.
+
+\textit{2. What are the IP and MAC addresses of the source and destination, respectively?}
+
+The source has IP \texttt{192.168.1.105} and MAC \texttt{00:d0:59:a9:3d:68}. The destination has IP \texttt{128.119.245.12} and MAC \texttt{00:06:25:da:af:73}.
+
+\pagebreak
+\subsubsection{All packets}
+\textit{3. How does the value of the Identification field change or stay the same for different packets? Is there any pattern if the value does change?}
+
+The ID field corresponds to a counter set by each host. Every time a host sends a message its counter is incremented by one. The two counters do not have the same value.
+
+\textit{4. How can you tell from looking at a packet that it has not been fragmented?}
+
+The value of the ``Don't Fragment'' flag is 1.
+
+\subsection{ICMP Functions}
+\subsubsection{Ping}
+\textit{1. What is the IP address of the source host (client)? What is the IP address of the destination host (server)?}
+
+Source IP: \texttt{142.104.115.34} \\
+Destination IP: \texttt{142.104.96.10}
+
+\textit{What is the average Round Trip Time (RTT)?}
+
+Wireshark computes a single RTT for each reply packet. Summing the times of all 10 reply packets gives an average RTT of \SI{0.4672}{\milli\second}.
+
+\textit{3. Examine one of the ping request packets. What are the ICMP type and code numbers? What other fields does this ICMP packet have? How many bytes are in the checksum, sequence number and identifier fields?}
+
+For the ping request in packet number 634, the ICMP type is 8 and the code number is 0. Other fields in the packet, with length, are: Checksum (2 bytes), Sequence number (2 bytes), Identifier fields (2 bytes), Timestamp from ICMP data (8 bytes).
+
+\pagebreak
+\textit{4. Examine the corresponding ping reply packet. What are the ICMP type and code numbers? What other fields does this ICMP packet have? How many bytes are in the checksum, sequence number and identifier fields?}
+
+For the corresponding ping reply in packet number 635, the ICMP type is 0 and the code number is 0. Other fields in the packet, with length, are: Checksum (2 bytes), Sequence number (2 bytes), Identifier fields (2 bytes), Timestamp from ICMP data (8 bytes).
+
+\subsubsection{Traceroute}
+\textit{5. What is the IP address of the source host (client)? What is the IP address of the destination host (server)?}
+
+Source IP: \texttt{142.104.115.34} \\
+Destination IP: \texttt{142.104.193.247}
+
+\textit{6. Examine the ICMP error packet, which could be found in the packets from tracert-trace-2. It has more fields than the ICMP echo packet. What are included in those fields? Find the TTL field, and explain what it is.}
+
+Examining packet 365, it contains the original ICMP request fields plus another Type, Code and Checksum. The error packet has Type 11, corresponding to ``TTL exceeded''. The Time-To-Live (TTL) field indicates the number of hops that a packet can make before it is invalidated. Each time a hope occurs the TTL value is decremented by one. When the TTL field is one and it reaches a host different from the destination, an error reply is generated and returned to the source.
+
+\textit{7. How many routers are between the source and the destination (www.engr.uvic.ca) from the trace file? Please draw a figure to show the sequences of these routers, i.e, source $\rightarrow$ router first $\rightarrow \cdots \rightarrow$ router last $\rightarrow$ destination.}
+
+The order of routers along the route can be constructed by examining the original ping request wrapped in the error message. The wrapped request has a sequence number that can be cross-referenced to the original ping request to find the original TTL. In this trace, the first error response to reach the source is \textit{not} from its nearest neighbor. It could be the case that the nearest neighbor is able to pass traffic faster than it can generate an error message as a result of task priorities or dynamic load.  Hence, it is absolutely necessary to cross-reference the sequence number to the original TTL to determine distance.
+
+\input{graphics/routers}
+
+\textit{8. What are the average RTT between the source host and each router?}
+
+The average RTT is shown in the previous diagram. The time associated with each router is the RTT \textit{to the source}. It is calculated by comparing the difference between the request and error response timestamps in Wireshark. Observe that the distance between the source and the router does not guarantee an identical ordering in response times.

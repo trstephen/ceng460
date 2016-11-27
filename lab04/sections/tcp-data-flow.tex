@@ -1,0 +1,85 @@
+\subsection{TCP Data flow}\label{sec:tcp-data-flow}
+\begin{Question}\label{q:flow-table}  
+	Beginning with the 4th segment, what are the sequence number, acknowledgement number, data length, and the time of the segment sent/received from/to the client computer of the 4th, 5th, 6th, $\ldots$, 15th segments in the TCP connection?
+\end{Question}
+\begin{table}[htpb]
+	\centering
+	\begin{tabular}{@{}c|rSr|rSr@{}}
+		\toprule
+			\multirow{3}{*}{\begin{tabular}[c]{@{}c@{}}Packet\\ No.\end{tabular}} &
+			  \multicolumn{3}{c}{Data Segments} &
+			  \multicolumn{3}{|c}{ACK Segments}
+			\\
+			& \multicolumn{3}{c}{\texttt{10.0.1.5} $\rightarrow$ \texttt{128.119.245.12}} &
+			  \multicolumn{3}{|c}{\texttt{128.119.245.12} $\rightarrow$ \texttt{10.0.1.5}}
+			\\
+			& \textcol{(Relative) Seq. No.} &
+			  \textcol{Length (b)} &
+			  \textcol{Time (s)} &
+			  \multicolumn{1}{|c}{(Relative) Seq. No.} &
+			  \textcol{Length (b)} &
+			  \textcol{Time (s)}
+			\\
+		\midrule
+		4  & (1)    \hex{b93c1f08} & 673  & 0.000000 & & \textemdash\ & \\
+		5  & (674)  \hex{b93c21a9} & 1460 & 0.005810 & & \textemdash\ & \\
+		6  & & \textemdash\ & & (674)  \hex{b93c21a9} & 0 & 0.115040 \\
+		7  & (2134) \hex{b93c275d} & 1460 & 0.115086 & & \textemdash\ & \\
+		8  & (3594) \hex{b93c2d11} & 1460 & 0.115107 & & \textemdash\ & \\
+		9  & & \textemdash\ & & (2134) \hex{b93c275d} & 0 & 0.123461 \\
+		10 & (5054) \hex{b93c32c5} & 1460 & 0.123502 & &  \textemdash\ & \\
+		11 & (6514) \hex{b93c3879} & 1460 & 0.123523 & &  \textemdash\ & \\
+		12 & & \textemdash\ & & (3594) \hex{b93c2d11} & 0 & 0.230059 \\
+		13 & (7974) \hex{b93c3e2d} & 1460 & 0.230102 & &  \textemdash\ & \\
+		14 & (9434) \hex{b93c43e1} & 1460 & 0.230135 & &  \textemdash\ & \\
+		15 & & \textemdash\ & & (5054) \hex{b93c32c5} & 0 & 0.233417 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{Question}
+	What are the segments acknowledged by packet 6, 9, 12, and 15, respectively?
+\end{Question}
+\begin{Answer}
+	6 \ackarrow\ 4; 9 \ackarrow\ 5; 12 \ackarrow\ 7; 15 \ackarrow\ 8
+\end{Answer}
+
+\begin{Question}
+	Given the difference between the time each TCP segment was sent and the time its acknowledgement was received, what is the RTT value for each of the segments which have been acknowledged before the 15th segment?
+\end{Question}
+\begin{Answer}
+	Segment 4: \SI{0.115040}{\second}\\
+	Segment 5: \SI{0.117651}{\second}\\
+	Segment 7: \SI{0.114973}{\second}\\
+	Segment 8: \SI{0.118310}{\second}
+\end{Answer}
+
+\begin{Question}
+	(Optional) What is the Estimated RTT value after the receipt of each ACK? Assume that the value of the Estimated RTT is equal to the measured RTT for the first segment, and then is computed using the Estimated RTT equation for all subsequent segments.
+\end{Question}
+\begin{Answer}
+	\textemdash\
+\end{Answer}
+
+\begin{Question}
+	In the trace file, how did the sequence number of the packets from the server to the client change? Why?
+\end{Question}
+\begin{Answer}
+	The sequence number did not increment since no data was sent from the server to the client.
+\end{Answer}
+
+\begin{Question}
+	(Optional) At the end of the trace file, find the TCP segments used by the server to transfer the congratulation web page to the client computer. How do you determine this?
+\end{Question}
+\begin{Answer}
+	Segment 347 is an ACK from the client to the server corresponding the TCP segment number 345, indicating that the client received data from the server.
+	The TCP data in segment 345 and HTTP data in segment 346 correspond to the HTTP 200 OK response from the server which contains the congratulations page.
+\end{Answer}
+
+\begin{Question}
+	(Optional) Are there any retransmitted segments in the trace file? What do you check for (in the trace) in order to answer this question?
+\end{Question}
+\begin{Answer}
+	Retransmissions can be detected with filter: \texttt{tcp.analysis.retransmission}.
+	This file does not contain any retransmissions.
+\end{Answer}
